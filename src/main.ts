@@ -1,6 +1,6 @@
 class El {
-    next: El;
-    prev: El;
+    next: El | null;
+    prev: El | null;
     value: number;
     constructor(
          value: number
@@ -12,8 +12,8 @@ class El {
 }
 
 class LinkedList {
-    head: El;
-    tail: El;
+    head: El  | null;
+    tail: El  | null;
     constructor(
         value: number,
     ) {
@@ -25,7 +25,7 @@ class LinkedList {
     append(value: number) {
         const newNode = new El(value);
         newNode.prev = this.tail
-        newNode.prev.next = newNode
+        newNode.prev!.next = newNode
         this.tail = newNode;
         return this;
     }
@@ -34,7 +34,7 @@ class LinkedList {
     prepend(value: number) {
         const newNode = new El(value);
         newNode.next = this.head
-        this.head.prev = newNode
+        this.head!.prev = newNode
         this.head = newNode
         return this;
     }
@@ -54,11 +54,11 @@ class LinkedList {
                 }
                 // если элемент последний
                 else if(currentNode === this.tail){
-                    currentNode.prev.next = null
+                    currentNode.prev!.next = null
                     this.tail = currentNode.prev
                 }else{
-                    currentNode.prev.next = currentNode.next
-                    currentNode.next.prev = currentNode.prev
+                    currentNode.prev!.next = currentNode.next
+                    currentNode.next!.prev = currentNode.prev
                 }
             }
 
@@ -76,7 +76,7 @@ class LinkedList {
     }
 
     // Находит первый узел с таким же значением
-    find(value: number): El {
+    find(value: number) {
         const checkNode = (currentNode: El) => {
             if(currentNode.value === value) {
                 return currentNode;
@@ -89,9 +89,9 @@ class LinkedList {
 
         if (!this.head) {
             return null;
-        }else{
-            console.log ('find', checkNode(this.head))
         }
+        console.log ('find', checkNode(this.head))
+
     }
 
     // Удаляет последний узел из списка
@@ -99,7 +99,7 @@ class LinkedList {
         if (!this.tail) {
             return null;
         }
-        this.tail.prev.next = null
+        this.tail.prev!.next = null
         this.tail = this.tail.prev
         return this;
     }
@@ -109,7 +109,7 @@ class LinkedList {
         if (!this.head) {
             return null;
         }
-        this.head.next.prev = null
+        this.head.next!.prev = null
         this.head = this.head.next
         return this
     }
@@ -123,7 +123,7 @@ class LinkedList {
     }
 
     // Создаёт массив из всех узлов
-    toArray(): Array<number> {
+    toArray(){
         const arr:Array<number> = []
         const checkNode = (currentNode: El) => {
             if(currentNode.value) {
@@ -134,11 +134,11 @@ class LinkedList {
             }
             return arr
         }
+
         if (!this.head) {
             return null;
-        }else{
-            console.log ('toArray', checkNode(this.head))
         }
+        console.log ('toArray', checkNode(this.head))
     }
 
     // Создаёт обратный список, меняя узлы местами.
@@ -160,9 +160,10 @@ class LinkedList {
 
         if(!this.tail){
             return null;
-        }else{
-            checkNode(this.head)
         }
+
+        checkNode(this.head!)
+
         return this;
     }
     // Вывод
@@ -179,7 +180,7 @@ class LinkedList {
         }else{
             console.log('HEAD', this.head.value)
             viewNodes(this.head)
-            console.log('TAIL', this.tail.value)
+            console.log('TAIL', this.tail!.value)
         }
     }
 }
